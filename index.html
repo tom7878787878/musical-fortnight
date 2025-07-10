@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apex Auto Parts</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <style>
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero.jpg') center/cover no-repeat;
+      color: white;
+      padding: 120px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero button {
+      background: #e53935;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo">🚗 APEX AUTO PARTS</div>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('products')">Products</a></li>
+        <li><a href="#" onclick="showPage('garage')">My Garage</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        <li><a href="#" onclick="showPage('auth')">Login</a></li>
+      </ul>
+      <span id="userEmail"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <h1>Apex Auto Parts</h1>
+        <p>Your Trusted Auto Parts Supplier</p>
+        <button onclick="showPage('products')">Shop Now</button>
+      </div>
+    </section>
+
+    <section id="products" class="page">
+      <div class="container">
+        <h2>Search Products</h2>
+        <input type="text" id="searchInput" placeholder="Search parts..." />
+        <button onclick="searchAmazon()">Search</button>
+        <div id="searchResults"></div>
+        <h3>Featured</h3>
+        <div class="grid">
+          <div class="card">
+            <h4>Oil Filter</h4>
+            <p>ACDelco – $12.99</p>
+            <a href="https://www.amazon.com/dp/B000C9TQNM?tag=everythi09e02-20" target="_blank">Buy on Amazon</a>
+          </div>
+          <div class="card">
+            <h4>Brake Pads</h4>
+            <p>Wagner – $89.99</p>
+            <a href="https://www.amazon.com/dp/B01M1EEOFP?tag=everythi09e02-20" target="_blank">Buy on Amazon</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="garage" class="page">
+      <div class="container">
+        <h2>My Garage</h2>
+        <form id="garageForm">
+          <input type="text" id="make" placeholder="Make" required />
+          <input type="text" id="model" placeholder="Model" required />
+          <input type="number" id="year" placeholder="Year" required />
+          <button type="submit">Save</button>
+        </form>
+        <p id="garageDisplay"></p>
+      </div>
+    </section>
+
+    <section id="contact" class="page">
+      <div class="container">
+        <h2>Contact Us</h2>
+        <form>
+          <input type="text" placeholder="Name" required />
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Message" required></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="auth" class="page">
+      <div class="container">
+        <h2>Login / Register</h2>
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPass" placeholder="Password" required />
+          <button type="submit">Login</button>
+        </form>
+        <form id="registerForm">
+          <input type="email" id="regEmail" placeholder="Email" required />
+          <input type="password" id="regPass" placeholder="Password" required />
+          <button type="submit">Register</button>
+        </form>
+        <button onclick="googleLogin()">Login with Google</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

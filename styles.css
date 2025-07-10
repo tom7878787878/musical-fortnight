@@ -1,0 +1,10 @@
+body { font-family: sans-serif; margin: 0; }
+nav { display: flex; justify-content: space-between; padding: 1rem; background: #111; color: #fff; }
+.nav-links { list-style: none; display: flex; gap: 1rem; }
+.nav-links li a { color: white; text-decoration: none; }
+.container { padding: 1rem; }
+.page { display: none; }
+.page.active { display: block; }
+.card { background: #f5f5f5; padding: 1rem; margin: 1rem 0; border-radius: 6px; }
+.grid { display: flex; gap: 1rem; flex-wrap: wrap; }
+.grid .card { flex: 1 1 300px; }
