@@ -4,32 +4,234 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Auto Parts</title>
-  <link rel="stylesheet" href="styles.css" />
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  
   <style>
+    /* styles.css content */
+    body { 
+      font-family: sans-serif; 
+      margin: 0; 
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    nav { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      padding: 1rem; 
+      background: #111; 
+      color: #fff; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .nav-links { 
+      list-style: none; 
+      display: flex; 
+      gap: 1.5rem; 
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li a { 
+      color: white; 
+      text-decoration: none; 
+      padding: 0.5rem 0;
+      transition: color 0.3s ease;
+    }
+    .nav-links li a:hover, .nav-links li a:focus {
+      color: #e53935;
+    }
+    #userEmail {
+        color: #ddd;
+        font-size: 0.9rem;
+        margin-left: 1rem;
+    }
+    .container { 
+      padding: 2rem; 
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .page { 
+      display: none; 
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .page.active { 
+      display: block; 
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .card { 
+      background: #fff; 
+      padding: 1.5rem; 
+      margin: 1rem 0; 
+      border-radius: 8px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+    }
+    .grid { 
+      display: grid; /* Changed to grid for better control */
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; 
+      margin-top: 1.5rem;
+    }
+    .grid .card { 
+      flex: none; /* Remove flex specific properties when using grid */
+      margin: 0;
+    }
+    .card h4 {
+        margin-top: 0;
+        color: #e53935;
+    }
+    .card p {
+        font-size: 0.95rem;
+        color: #555;
+    }
+    .card a {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.6rem 1.2rem;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .card a:hover {
+        background-color: #45a049;
+    }
+
+    /* Hero section styles */
     .hero {
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('hero.jpg') center/cover no-repeat;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img.jpg') center/cover no-repeat; /* <--- UPDATED IMAGE PATH TO img.jpg */
       color: white;
       padding: 120px 20px;
       text-align: center;
+      border-radius: 8px;
+      margin-bottom: 2rem;
     }
     .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+      font-size: 3.5rem;
+      margin-bottom: 0.8rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     .hero p {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
     }
     .hero button {
       background: #e53935;
       color: #fff;
       border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 50px; /* More rounded */
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .hero button:hover {
+      background: #c62828;
+      transform: translateY(-2px);
+    }
+
+    /* Form styles */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-top: 1.5rem;
+    }
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="number"],
+    form textarea {
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    form textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+    form button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    form button:hover {
+        background: #0056b3;
+    }
+    #auth form + form { /* Separate login/register forms */
+        margin-top: 2rem;
+    }
+    #auth button {
+        background: #6c757d; /* Different color for Google/Logout buttons */
+        margin-top: 1rem;
+    }
+    #auth button:hover {
+        background: #5a6268;
+    }
+
+    #garageDisplay {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #e53935;
+    }
+
+    /* Search section */
+    #products input[type="text"] {
+        width: calc(100% - 100px); /* Adjust based on button width */
+        margin-right: 10px;
+        display: inline-block;
+    }
+    #products button {
+        padding: 0.8rem 1.5rem;
+        background-color: #e53935;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    #products button:hover {
+        background-color: #c62828;
+    }
+    #searchResults {
+        margin-top: 1rem;
+        font-style: italic;
+        color: #666;
+    }
+
+    /* Accessibility - Visually hidden class */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
     }
   </style>
 </head>
@@ -38,13 +240,13 @@
     <nav class="container">
       <div class="logo">🚗 APEX AUTO PARTS</div>
       <ul class="nav-links">
+        <li><a href="#" onclick="showPage('auth')">Login / Register</a></li>
         <li><a href="#" onclick="showPage('home')">Home</a></li>
         <li><a href="#" onclick="showPage('products')">Products</a></li>
         <li><a href="#" onclick="showPage('garage')">My Garage</a></li>
         <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-        <li><a href="#" onclick="showPage('auth')">Login</a></li>
       </ul>
-      <span id="userEmail"></span>
+      <span id="userEmail" aria-live="polite"></span>
     </nav>
   </header>
 
@@ -60,20 +262,21 @@
     <section id="products" class="page">
       <div class="container">
         <h2>Search Products</h2>
+        <label for="searchInput" class="sr-only">Search parts</label>
         <input type="text" id="searchInput" placeholder="Search parts..." />
         <button onclick="searchAmazon()">Search</button>
-        <div id="searchResults"></div>
+        <div id="searchResults" aria-live="polite"></div>
         <h3>Featured</h3>
         <div class="grid">
           <div class="card">
             <h4>Oil Filter</h4>
             <p>ACDelco – $12.99</p>
-            <a href="https://www.amazon.com/dp/B000C9TQNM?tag=everythi09e02-20" target="_blank">Buy on Amazon</a>
+            <a href="https://amzn.to/4eHO7cQ" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
           </div>
           <div class="card">
             <h4>Brake Pads</h4>
             <p>Wagner – $89.99</p>
-            <a href="https://www.amazon.com/dp/B01M1EEOFP?tag=everythi09e02-20" target="_blank">Buy on Amazon</a>
+            <a href="https://amzn.to/4lEZ4Pr" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
           </div>
         </div>
       </div>
@@ -83,12 +286,15 @@
       <div class="container">
         <h2>My Garage</h2>
         <form id="garageForm">
+          <label for="make" class="sr-only">Make</label>
           <input type="text" id="make" placeholder="Make" required />
+          <label for="model" class="sr-only">Model</label>
           <input type="text" id="model" placeholder="Model" required />
-          <input type="number" id="year" placeholder="Year" required />
-          <button type="submit">Save</button>
+          <label for="year" class="sr-only">Year</label>
+          <input type="number" id="year" placeholder="Year" min="1900" max="2100" required />
+          <button type="submit">Save Vehicle</button>
         </form>
-        <p id="garageDisplay"></p>
+        <p id="garageDisplay" aria-live="polite"></p>
       </div>
     </section>
 
@@ -96,10 +302,14 @@
       <div class="container">
         <h2>Contact Us</h2>
         <form>
-          <input type="text" placeholder="Name" required />
-          <input type="email" placeholder="Email" required />
-          <textarea placeholder="Message" required></textarea>
-          <button type="submit">Send</button>
+          <h3>Send Us a Message</h3>
+          <label for="contactName" class="sr-only">Name</label>
+          <input type="text" id="contactName" placeholder="Name" required />
+          <label for="contactEmail" class="sr-only">Email</label>
+          <input type="email" id="contactEmail" placeholder="Email" required />
+          <label for="contactMessage" class="sr-only">Message</label>
+          <textarea id="contactMessage" placeholder="Message" required></textarea>
+          <button type="submit">Send Message</button>
         </form>
       </div>
     </section>
@@ -108,12 +318,18 @@
       <div class="container">
         <h2>Login / Register</h2>
         <form id="loginForm">
+          <h3>Login</h3>
+          <label for="loginEmail" class="sr-only">Email</label>
           <input type="email" id="loginEmail" placeholder="Email" required />
+          <label for="loginPass" class="sr-only">Password</label>
           <input type="password" id="loginPass" placeholder="Password" required />
           <button type="submit">Login</button>
         </form>
         <form id="registerForm">
+          <h3>Register</h3>
+          <label for="regEmail" class="sr-only">Email</label>
           <input type="email" id="regEmail" placeholder="Email" required />
+          <label for="regPass" class="sr-only">Password</label>
           <input type="password" id="regPass" placeholder="Password" required />
           <button type="submit">Register</button>
         </form>
@@ -123,6 +339,175 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script>
+    // Firebase Initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbASk2ttihM-k3Noo1uhTCCsuc2FBBiSc",
+      authDomain: "apex-ad8c0.firebaseapp.com",
+      projectId: "apex-ad8c0",
+      storageBucket: "apex-ad8c0.firebasestorage.app",
+      messagingSenderId: "243749227658",
+      appId: "1:243749227658:web:3ac6fba9aac3105abcb173"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Page Navigation
+    function showPage(id) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    // Auth State Listener
+    auth.onAuthStateChanged(user => {
+      const emailSpan = document.getElementById("userEmail");
+      if (user) {
+        emailSpan.textContent = `Logged in as: ${user.email}`;
+        loadVehicle();
+        // Automatically switch to garage or home after login/load
+        if (document.querySelector('.page.active')?.id === 'auth') {
+          showPage('garage'); // Or 'home' if you prefer
+        }
+      } else {
+        emailSpan.textContent = "";
+        // If the user logs out or is not logged in and on the garage page, redirect to auth
+        if (document.querySelector(".page.active")?.id === "garage") {
+          showPage("auth");
+        }
+      }
+    });
+
+    // Login
+    document.getElementById("loginForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const loginEmail = document.getElementById("loginEmail"); 
+      const loginPass = document.getElementById("loginPass"); 
+      auth.signInWithEmailAndPassword(loginEmail.value, loginPass.value)
+        .then(() => {
+          alert("Login successful");
+          showPage("garage");
+        })
+        .catch(err => alert("Login error: " + err.message));
+    });
+
+    // Register
+    document.getElementById("registerForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const regEmail = document.getElementById("regEmail"); 
+      const regPass = document.getElementById("regPass"); 
+      auth.createUserWithEmailAndPassword(regEmail.value, regPass.value)
+        .then(() => {
+          alert("Registered successfully!");
+          showPage("garage");
+        })
+        .catch(err => alert("Registration error: " + err.message));
+    });
+
+    // Google Login
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(() => {
+          alert("Google login successful");
+          showPage("garage");
+        })
+        .catch(err => alert("Google login error: " + err.message));
+    }
+
+    // Logout
+    function logout() {
+      auth.signOut().then(() => {
+        alert("Logged out");
+        showPage("auth");
+      });
+    }
+
+    // Save to Firestore
+    document.getElementById("garageForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const make = document.getElementById("make").value;
+      const model = document.getElementById("model").value;
+      const year = document.getElementById("year").value;
+      const display = document.getElementById("garageDisplay");
+
+      if (!auth.currentUser) {
+        alert("Please log in to save your vehicle.");
+        return;
+      }
+
+      db.collection("garages").doc(auth.currentUser.uid).set({
+        make, model, year, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        display.textContent = `Saved: ${year} ${make} ${model}`;
+        alert("Vehicle saved successfully!");
+      }).catch(err => {
+        alert("Error saving vehicle: " + err.message);
+      });
+    });
+
+    // Load from Firestore
+    function loadVehicle() {
+      const display = document.getElementById("garageDisplay");
+      if (!auth.currentUser) {
+        display.textContent = ""; 
+        document.getElementById("make").value = "";
+        document.getElementById("model").value = "";
+        document.getElementById("year").value = "";
+        return;
+      }
+
+      db.collection("garages").doc(auth.currentUser.uid).get()
+        .then(doc => {
+          if (doc.exists) {
+            const data = doc.data();
+            display.textContent = `Saved: ${data.year} ${data.make} ${data.model}`;
+            document.getElementById("make").value = data.make;
+            document.getElementById("model").value = data.model;
+            document.getElementById("year").value = data.year;
+          } else {
+            display.textContent = "No vehicle saved yet.";
+            document.getElementById("make").value = "";
+            document.getElementById("model").value = "";
+            document.getElementById("year").value = "";
+          }
+        })
+        .catch(err => {
+          console.error("Error loading vehicle:", err);
+          display.textContent = "Error loading vehicle data.";
+        });
+    }
+
+    // Search Amazon - MODIFIED FOR PERSISTENCE AND CORRECTED BUY BUTTONS
+    function searchAmazon() {
+      const input = document.getElementById("searchInput").value.trim();
+      if (!input) {
+        return alert("Please enter a search term.");
+      }
+
+      // Get loaded vehicle data from the garage form fields
+      const make = document.getElementById("make").value.trim();
+      const model = document.getElementById("model").value.trim();
+      const year = document.getElementById("year").value.trim();
+
+      let fullQuery = input;
+
+      // Append vehicle details if they are available
+      if (year && make && model) {
+        fullQuery = `${year} ${make} ${model} ${input}`;
+        document.getElementById('searchResults').innerHTML = `Opening Amazon search for "${fullQuery}"...`;
+      } else {
+        document.getElementById('searchResults').innerHTML = `Opening Amazon search for "${input}"...`;
+      }
+
+      const tag = "everythi09e02-20"; // Your Amazon Associate Tag
+      const url = `https://www.amazon.com/s?k=${encodeURIComponent(fullQuery)}&tag=${tag}`;
+      window.open(url, "_blank"); // Open in a new tab
+    }
+
+    // Initial page load
+    showPage('home');
+
+  </script>
 </body>
 </html>
