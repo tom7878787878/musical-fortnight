@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Auto Parts</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <meta name="fo-verify" content="8bafdf38-554d-422e-9705-20292b82f67d" /> <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
   
   <style>
-    /* styles.css content */
+    /* ... your CSS styles will follow here ... */
+    /* General styles and responsive adjustments */
     body { 
       font-family: sans-serif; 
       margin: 0; 
@@ -17,13 +18,16 @@
       color: #333;
     }
     nav { 
+      position: sticky; 
+      top: 0;
+      background: #111; 
+      color: #fff; 
+      padding: 1rem; 
       display: flex; 
       justify-content: space-between; 
       align-items: center;
-      padding: 1rem; 
-      background: #111; 
-      color: #fff; 
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 100;
     }
     .logo {
       font-size: 1.5rem;
@@ -58,9 +62,19 @@
     .page { 
       display: none; 
       animation: fadeIn 0.5s ease-in-out;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: calc(100vh - 70px); 
+      display: flex; 
+      align-items: center;
+      padding: 40px 0; 
+      position: relative;
+      overflow: hidden; 
+      color: #333; 
     }
     .page.active { 
-      display: block; 
+      display: flex; 
     }
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
@@ -75,13 +89,13 @@
       border: 1px solid #eee;
     }
     .grid { 
-      display: grid; /* Changed to grid for better control */
+      display: grid; 
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem; 
       margin-top: 1.5rem;
     }
     .grid .card { 
-      flex: none; /* Remove flex specific properties when using grid */
+      flex: none; 
       margin: 0;
     }
     .card h4 {
@@ -106,57 +120,79 @@
         background-color: #45a049;
     }
 
-    /* Hero section styles */
-    .hero {
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img.jpg') center/cover no-repeat; /* <--- UPDATED IMAGE PATH TO img.jpg */
+    /* Hero section styles (remains specific) */
+    #home .hero { 
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img.jpg') center/cover no-repeat; 
       color: white;
       padding: 120px 20px;
       text-align: center;
       border-radius: 8px;
       margin-bottom: 2rem;
+      min-height: calc(100vh - 70px); 
+      display: flex;
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
     }
-    .hero h1 {
+    #home .hero h1 {
       font-size: 3.5rem;
       margin-bottom: 0.8rem;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
-    .hero p {
+    #home .hero p {
       font-size: 1.8rem;
       margin-bottom: 2rem;
       font-weight: 300;
     }
-    .hero button {
+    #home .hero button {
       background: #e53935;
       color: #fff;
       border: none;
       padding: 1rem 2.5rem;
       font-size: 1.2rem;
       cursor: pointer;
-      border-radius: 50px; /* More rounded */
+      border-radius: 50px; 
       transition: background-color 0.3s ease, transform 0.2s ease;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-    .hero button:hover {
+    #home .hero button:hover {
       background: #c62828;
       transform: translateY(-2px);
     }
 
-    /* Form styles */
+    /* Backgrounds for Other Pages (using placeholders) */
+    #products {
+        background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1579589332024-e2b26002f232?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTc5fDB8MXxzZWFyY2h8MTB8fGF1dG8lMjBwYXJ0cyUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzIwNjQwMDY0fDB8Mg&ixlib=rb-4.0.3&q=80&w=1080'); 
+    }
+    #garage {
+        background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1549476465-ce9032776c5b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTc5fDB8MXxzZWFyY2h8Mzh8fGdhcmFnZSUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzIwNjQwMjE5fDB8Mg&ixlib=rb-4.0.3&q=80&w=1080'); 
+    }
+    #contact {
+        background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555529094-118e69e8b7c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTc5fDB8MXxzZWFyY2h8MTd8fGxhbmRzY2FwZSUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzIwNjQwMjQyfDB8Mg&ixlib=rb-4.0.3&q=80&w=1080'); 
+    }
+    #auth {
+        background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1627943588998-ef449f807212?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTc5fDB8MXxzZWFyY2h8Mnx8bGlnaHQlMjB0ZXh0dXJlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3MjA2NDAyNzh8MHwy&ixlib=rb-4.0.3&q=80&w=1080'); 
+    }
+
+    /* Form styles (ensure they stand out on backgrounds) */
     form {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        background: #fff;
+        background: rgba(255, 255, 255, 0.95); 
         padding: 2rem;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         margin-top: 1.5rem;
+        position: relative; 
+        z-index: 2; 
     }
     form input[type="text"],
     form input[type="email"],
     form input[type="password"],
     form input[type="number"],
-    form textarea {
+    form textarea,
+    select { 
         padding: 0.8rem;
         border: 1px solid #ddd;
         border-radius: 5px;
@@ -179,59 +215,110 @@
     form button:hover {
         background: #0056b3;
     }
-    #auth form + form { /* Separate login/register forms */
+    #auth form + form { 
         margin-top: 2rem;
     }
-    #auth button {
-        background: #6c757d; /* Different color for Google/Logout buttons */
+    #auth button { 
+        background: #6c757d;
         margin-top: 1rem;
     }
     #auth button:hover {
         background: #5a6268;
     }
 
-    #garageDisplay {
-        margin-top: 1.5rem;
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #e53935;
+    /* Page-specific content styling to ensure readability on backgrounds */
+    .container > h2, 
+    .container > h3, 
+    .container > p, 
+    .container #searchInput, 
+    .container button {
+        position: relative;
+        z-index: 2; 
+        background-color: rgba(255, 255, 255, 0.95); 
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
     }
-
-    /* Search section */
-    #products input[type="text"] {
-        width: calc(100% - 100px); /* Adjust based on button width */
-        margin-right: 10px;
-        display: inline-block;
-    }
-    #products button {
-        padding: 0.8rem 1.5rem;
-        background-color: #e53935;
+    /* Specific adjustment for buttons within the search section */
+    #products div > button {
+        margin-right: 0.5rem; 
+        background-color: #e53935; 
         color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
     }
-    #products button:hover {
+    #products div > button:hover {
         background-color: #c62828;
     }
-    #searchResults {
-        margin-top: 1rem;
-        font-style: italic;
-        color: #666;
+
+    /* Message and Loading Area Styles */
+    #messageArea {
+        position: fixed;
+        top: 70px; 
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        z-index: 1000;
+        font-size: 0.9rem;
+        display: none; 
+        text-align: center;
+        min-width: 250px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    #messageArea.success { background-color: #28a745; } 
+    #messageArea.error { background-color: #dc3545; } 
+    #messageArea.info { background-color: #007bff; } 
+
+    #loadingIndicator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        z-index: 1001;
+        display: none; 
+        font-size: 0.85rem;
     }
 
-    /* Accessibility - Visually hidden class */
-    .sr-only {
+    /* Hamburger Menu Specific Styles for Mobile */
+    @media (max-width: 768px) { 
+      .nav-links {
+        display: none; 
+        flex-direction: column;
+        background: #222;
         position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border-width: 0;
+        top: 60px; 
+        right: 1rem;
+        width: calc(100% - 2rem); 
+        padding: 1rem;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        z-index: 99; 
+      }
+      .nav-links.active {
+        display: flex; 
+      }
+      .hamburger {
+        display: flex; 
+        cursor: pointer;
+        flex-direction: column;
+        gap: 4px; 
+      }
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 2px;
+      }
+
+      /* Adjust main content padding for smaller screens */
+      .container {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -239,18 +326,21 @@
   <header>
     <nav class="container">
       <div class="logo">🚗 APEX AUTO PARTS</div>
-      <ul class="nav-links">
-        <li><a href="#" onclick="showPage('auth')">Login / Register</a></li>
-        <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-links" id="navLinks"> <li><a href="#" onclick="showPage('home')">Home</a></li>
         <li><a href="#" onclick="showPage('products')">Products</a></li>
         <li><a href="#" onclick="showPage('garage')">My Garage</a></li>
         <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-      </ul>
-      <span id="userEmail" aria-live="polite"></span>
+        <li><a href="#" onclick="showPage('auth')">Login / Register</a></li>
+        <li><span id="userEmail"></span></li> </ul>
     </nav>
   </header>
 
-  <main>
+  <div id="messageArea" aria-live="assertive"></div> <main>
     <section id="home" class="page active">
       <div class="hero">
         <h1>Apex Auto Parts</h1>
@@ -264,7 +354,12 @@
         <h2>Search Products</h2>
         <label for="searchInput" class="sr-only">Search parts</label>
         <input type="text" id="searchInput" placeholder="Search parts..." />
-        <button onclick="searchAmazon()">Search</button>
+        <div>
+          <button onclick="searchAmazon()">Search Amazon</button>
+          <button onclick="searchAutoZone()">AutoZone</button>
+          <button onclick="searchAdvanceAuto()">Advance</button>
+          <button onclick="searchOReilly()">O'Reilly</button>
+        </div>
         <div id="searchResults" aria-live="polite"></div>
         <h3>Featured</h3>
         <div class="grid">
@@ -294,8 +389,9 @@
           <input type="number" id="year" placeholder="Year" min="1900" max="2100" required />
           <button type="submit">Save Vehicle</button>
         </form>
-        <p id="garageDisplay" aria-live="polite"></p>
-      </div>
+        <h3>Select Saved Vehicle</h3>
+        <select id="vehicleSelect" onchange="loadSelectedVehicle()"></select>
+        <p id="garageDisplay" aria-live="polite"></p> </div>
     </section>
 
     <section id="contact" class="page">
@@ -339,7 +435,7 @@
     </section>
   </main>
 
-  <script>
+  <div id="loadingIndicator">Loading...</div> <script>
     // Firebase Initialization
     const firebaseConfig = {
       apiKey: "AIzaSyCbASk2ttihM-k3Noo1uhTCCsuc2FBBiSc",
@@ -353,10 +449,101 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // Utility functions for messages and loading
+    const messageArea = document.getElementById("messageArea");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    let messageTimeout;
+
+    function showMessage(message, type = 'info') { // type can be 'success', 'error', 'info'
+      clearTimeout(messageTimeout);
+      messageArea.textContent = message;
+      messageArea.className = ''; // Clear previous classes
+      messageArea.classList.add(type);
+      messageArea.style.display = 'block';
+      messageTimeout = setTimeout(() => {
+        messageArea.style.display = 'none';
+        messageArea.textContent = '';
+      }, 5000); // Message disappears after 5 seconds
+    }
+
+    function showLoading() {
+      loadingIndicator.style.display = 'block';
+    }
+
+    function hideLoading() {
+      loadingIndicator.style.display = 'none';
+    }
+
     // Page Navigation
     function showPage(id) {
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
       document.getElementById(id).classList.add("active");
+      // Close mobile menu if open
+      const navLinks = document.getElementById("navLinks");
+      if (navLinks.classList.contains("active")) {
+        navLinks.classList.remove("active");
+      }
+    }
+
+    // Hamburger menu toggle
+    function toggleMenu() {
+      const navLinks = document.getElementById("navLinks");
+      navLinks.classList.toggle("active");
+    }
+
+    // Build search query for auto parts stores
+    function buildSearchQuery() {
+      const base = document.getElementById('searchInput').value.trim();
+      const make = document.getElementById('make').value.trim();
+      const model = document.getElementById('model').value.trim();
+      const year = document.getElementById('year').value.trim();
+
+      // Prioritize loaded vehicle info, but allow simple search if no vehicle selected
+      let vehiclePart = '';
+      if (year && make && model) {
+          vehiclePart = `${year} ${make} ${model}`;
+      } else if (document.getElementById("vehicleSelect").value && document.getElementById("vehicleSelect").value !== "" && document.getElementById("vehicleSelect").value !== "-- Select a saved vehicle --" && document.getElementById("vehicleSelect").value !== "No vehicles saved yet") {
+          const [selectedMake, selectedModel, selectedYear] = document.getElementById("vehicleSelect").value.split('|');
+          vehiclePart = `${selectedYear} ${selectedMake} ${selectedModel}`;
+      }
+
+      // Combine vehicle info with the user's search input
+      const finalQuery = `${vehiclePart} ${base}`.trim();
+      console.log("Generated Search Query:", finalQuery); // Log the query for debugging
+      return finalQuery;
+    }
+
+    function searchAmazon() {
+      const query = buildSearchQuery();
+      if (!query) { showMessage("Please enter a search term or select a vehicle.", 'error'); return; }
+      showMessage(`Searching Amazon for "${query}"...`, 'info');
+      const url = `https://www.amazon.com/s?k=${encodeURIComponent(query)}&tag=everythi09e02-20`;
+      console.log("Opening URL:", url); // Log the full URL
+      window.open(url, '_blank');
+    }
+    function searchAutoZone() {
+      const query = buildSearchQuery();
+      if (!query) { showMessage("Please enter a search term or select a vehicle.", 'error'); return; }
+      showMessage(`Searching AutoZone for "${query}"...`, 'info');
+      const url = `https://www.autozone.com/searchresult?searchText=${encodeURIComponent(query)}`;
+      console.log("Opening URL:", url); // Log the full URL
+      window.open(url, '_blank');
+    }
+    function searchAdvanceAuto() {
+      const query = buildSearchQuery();
+      if (!query) { showMessage("Please enter a search term or select a vehicle.", 'error'); return; }
+      showMessage(`Searching Advance Auto Parts for "${query}"...`, 'info');
+      const url = `https://shop.advanceautoparts.com/web/SearchResults?searchTerm=${encodeURIComponent(query)}`;
+      console.log("Opening URL:", url); // Log the full URL
+      window.open(url, '_blank');
+    }
+    function searchOReilly() {
+      const query = buildSearchQuery();
+      if (!query) { showMessage("Please enter a search term or select a vehicle.", 'error'); return; }
+      showMessage(`Searching O'Reilly Auto Parts for "${query}"...`, 'info');
+      const url = `https://www.oreillyauto.com/search?q=${encodeURIComponent(query)}`;
+      console.log("Opening URL:", url); // Log the full URL
+      window.open(url, '_blank');
     }
 
     // Auth State Listener
@@ -364,14 +551,20 @@
       const emailSpan = document.getElementById("userEmail");
       if (user) {
         emailSpan.textContent = `Logged in as: ${user.email}`;
-        loadVehicle();
-        // Automatically switch to garage or home after login/load
+        loadVehicles(); // Load vehicles when user logs in
+        // Redirect if user logs in while on auth page
         if (document.querySelector('.page.active')?.id === 'auth') {
           showPage('garage'); // Or 'home' if you prefer
         }
       } else {
         emailSpan.textContent = "";
-        // If the user logs out or is not logged in and on the garage page, redirect to auth
+        // Clear garage inputs if logged out
+        document.getElementById("make").value = "";
+        document.getElementById("model").value = "";
+        document.getElementById("year").value = "";
+        document.getElementById("garageDisplay").textContent = "";
+        document.getElementById("vehicleSelect").innerHTML = '<option value="">-- Select a saved vehicle --</option>'; // Clear dropdown
+        // Redirect to auth page if logged out and on garage
         if (document.querySelector(".page.active")?.id === "garage") {
           showPage("auth");
         }
@@ -381,133 +574,179 @@
     // Login
     document.getElementById("loginForm").addEventListener("submit", e => {
       e.preventDefault();
-      const loginEmail = document.getElementById("loginEmail"); 
-      const loginPass = document.getElementById("loginPass"); 
+      const loginEmail = document.getElementById("loginEmail");
+      const loginPass = document.getElementById("loginPass");
+      showLoading();
       auth.signInWithEmailAndPassword(loginEmail.value, loginPass.value)
         .then(() => {
-          alert("Login successful");
-          showPage("garage");
+          showMessage("Login successful!", 'success');
+          // No need to showPage here, authStateChanged will handle it
         })
-        .catch(err => alert("Login error: " + err.message));
+        .catch(err => {
+          console.error("Login error:", err);
+          showMessage("Login error: " + (err.message || "Please check your credentials."), 'error');
+        })
+        .finally(() => {
+          hideLoading();
+        });
     });
 
     // Register
     document.getElementById("registerForm").addEventListener("submit", e => {
       e.preventDefault();
-      const regEmail = document.getElementById("regEmail"); 
-      const regPass = document.getElementById("regPass"); 
+      const regEmail = document.getElementById("regEmail");
+      const regPass = document.getElementById("regPass");
+      showLoading();
       auth.createUserWithEmailAndPassword(regEmail.value, regPass.value)
         .then(() => {
-          alert("Registered successfully!");
-          showPage("garage");
+          showMessage("Registered successfully! You are now logged in.", 'success');
+          // No need to showPage here, authStateChanged will handle it
         })
-        .catch(err => alert("Registration error: " + err.message));
+        .catch(err => {
+          console.error("Registration error:", err);
+          showMessage("Registration error: " + (err.message || "Please try again."), 'error');
+        })
+        .finally(() => {
+          hideLoading();
+        });
     });
 
     // Google Login
     function googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
+      showLoading();
       auth.signInWithPopup(provider)
         .then(() => {
-          alert("Google login successful");
-          showPage("garage");
+          showMessage("Google login successful!", 'success');
+          // No need to showPage here, authStateChanged will handle it
         })
-        .catch(err => alert("Google login error: " + err.message));
+        .catch(err => {
+          console.error("Google login error:", err);
+          showMessage("Google login error: " + (err.message || "Please try again."), 'error');
+        })
+        .finally(() => {
+          hideLoading();
+        });
     }
 
     // Logout
     function logout() {
+      showLoading();
       auth.signOut().then(() => {
-        alert("Logged out");
-        showPage("auth");
+        showMessage("Logged out successfully.", 'info');
+        showPage("auth"); // Redirect to auth page after logout
+      })
+      .catch(err => {
+        console.error("Logout error:", err);
+        showMessage("Logout error: " + (err.message || "Please try again."), 'error');
+      })
+      .finally(() => {
+        hideLoading();
       });
     }
 
-    // Save to Firestore
+    // Save to Firestore (for multiple vehicles)
     document.getElementById("garageForm").addEventListener("submit", e => {
       e.preventDefault();
-      const make = document.getElementById("make").value;
-      const model = document.getElementById("model").value;
-      const year = document.getElementById("year").value;
-      const display = document.getElementById("garageDisplay");
-
-      if (!auth.currentUser) {
-        alert("Please log in to save your vehicle.");
-        return;
-      }
-
-      db.collection("garages").doc(auth.currentUser.uid).set({
-        make, model, year, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        display.textContent = `Saved: ${year} ${make} ${model}`;
-        alert("Vehicle saved successfully!");
-      }).catch(err => {
-        alert("Error saving vehicle: " + err.message);
-      });
-    });
-
-    // Load from Firestore
-    function loadVehicle() {
-      const display = document.getElementById("garageDisplay");
-      if (!auth.currentUser) {
-        display.textContent = ""; 
-        document.getElementById("make").value = "";
-        document.getElementById("model").value = "";
-        document.getElementById("year").value = "";
-        return;
-      }
-
-      db.collection("garages").doc(auth.currentUser.uid).get()
-        .then(doc => {
-          if (doc.exists) {
-            const data = doc.data();
-            display.textContent = `Saved: ${data.year} ${data.make} ${data.model}`;
-            document.getElementById("make").value = data.make;
-            document.getElementById("model").value = data.model;
-            document.getElementById("year").value = data.year;
-          } else {
-            display.textContent = "No vehicle saved yet.";
-            document.getElementById("make").value = "";
-            document.getElementById("model").value = "";
-            document.getElementById("year").value = "";
-          }
-        })
-        .catch(err => {
-          console.error("Error loading vehicle:", err);
-          display.textContent = "Error loading vehicle data.";
-        });
-    }
-
-    // Search Amazon - MODIFIED FOR PERSISTENCE AND CORRECTED BUY BUTTONS
-    function searchAmazon() {
-      const input = document.getElementById("searchInput").value.trim();
-      if (!input) {
-        return alert("Please enter a search term.");
-      }
-
-      // Get loaded vehicle data from the garage form fields
       const make = document.getElementById("make").value.trim();
       const model = document.getElementById("model").value.trim();
       const year = document.getElementById("year").value.trim();
-
-      let fullQuery = input;
-
-      // Append vehicle details if they are available
-      if (year && make && model) {
-        fullQuery = `${year} ${make} ${model} ${input}`;
-        document.getElementById('searchResults').innerHTML = `Opening Amazon search for "${fullQuery}"...`;
-      } else {
-        document.getElementById('searchResults').innerHTML = `Opening Amazon search for "${input}"...`;
+      const user = auth.currentUser;
+      
+      if (!user) {
+          showMessage("Please log in to save your vehicle.", 'error');
+          return;
+      }
+      if (!make || !model || !year) {
+          showMessage("Please fill in all vehicle details (Make, Model, Year).", 'error');
+          return;
       }
 
-      const tag = "everythi09e02-20"; // Your Amazon Associate Tag
-      const url = `https://www.amazon.com/s?k=${encodeURIComponent(fullQuery)}&tag=${tag}`;
-      window.open(url, "_blank"); // Open in a new tab
+      showLoading();
+      // Add a new vehicle document to a sub-collection
+      db.collection("garages").doc(user.uid).collection("vehicles").add({ 
+        make, 
+        model, 
+        year,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp() // To order if needed
+      }).then(() => {
+        showMessage(`Vehicle "${year} ${make} ${model}" saved!`, 'success');
+        document.getElementById("make").value = ""; // Clear form after saving
+        document.getElementById("model").value = "";
+        document.getElementById("year").value = "";
+        loadVehicles(); // Reload dropdown with new vehicle
+      }).catch(err => {
+        console.error("Error saving vehicle:", err);
+        showMessage("Error saving vehicle: " + (err.message || "Please try again."), 'error');
+      })
+      .finally(() => {
+        hideLoading();
+      });
+    });
+
+    // Load Vehicles into dropdown
+    function loadVehicles() {
+      const user = auth.currentUser;
+      if (!user) {
+          document.getElementById("vehicleSelect").innerHTML = '<option value="">Login to add vehicles</option>';
+          return;
+      }
+      
+      const select = document.getElementById("vehicleSelect");
+      select.innerHTML = '<option value="">-- Select a saved vehicle --</option>'; // Clear and add default
+      showLoading();
+      db.collection("garages").doc(user.uid).collection("vehicles").get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            select.innerHTML = '<option value="">No vehicles saved yet</option>';
+            document.getElementById("garageDisplay").textContent = ""; // Clear display
+          } else {
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              const option = document.createElement("option");
+              // Store full data or just what's needed for display/search
+              option.value = `${data.make}|${data.model}|${data.year}`; 
+              option.textContent = `${data.year} ${data.make} ${data.model}`;
+              select.appendChild(option);
+            });
+            // If there's only one vehicle, auto-select it and load
+            if (snapshot.size === 1) {
+                select.selectedIndex = 1; // Select the first actual vehicle
+                loadSelectedVehicle();
+            }
+          }
+        })
+        .catch(err => {
+          console.error("Error loading vehicles:", err);
+          showMessage("Error loading vehicles: " + (err.message || "Please try again."), 'error');
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    }
+
+    // Load selected vehicle details into form fields
+    function loadSelectedVehicle() {
+      const val = document.getElementById("vehicleSelect").value;
+      const display = document.getElementById("garageDisplay");
+      if (!val || val === "-- Select a saved vehicle --" || val === "No vehicles saved yet") {
+        // If "Select a saved vehicle" or "No vehicles saved yet" is chosen
+        document.getElementById("make").value = "";
+        document.getElementById("model").value = "";
+        document.getElementById("year").value = "";
+        display.textContent = "";
+        return;
+      }
+      const [make, model, year] = val.split('|');
+      document.getElementById("make").value = make;
+      document.getElementById("model").value = model;
+      document.getElementById("year").value = year;
+      display.textContent = `Selected: ${year} ${make} ${model}`;
+      showMessage(`Vehicle "${year} ${make} ${model}" loaded.`, 'info');
     }
 
     // Initial page load
     showPage('home');
-
   </script>
 </body>
 </html>
