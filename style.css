@@ -1,2 +1,516 @@
+/* Global Styles */
+body { 
+  font-family: 'Open Sans', sans-serif; /* Using Open Sans from Google Fonts */
+  margin: 0; 
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navigation Bar */
+nav { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  padding: 1rem; 
+  background: #111; 
+  color: #fff; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  position: relative; /* Needed for absolute positioning of mobile menu */
+  z-index: 1000; /* Ensure nav is on top */
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.nav-links { 
+  list-style: none; 
+  display: flex; 
+  gap: 1.5rem; 
+  margin: 0;
+  padding: 0;
+}
+.nav-links li a { 
+  color: white; 
+  text-decoration: none; 
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+.nav-links li a:hover, .nav-links li a:focus {
+  color: #e53935; /* Red accent color */
+}
+#userEmail {
+    color: #ddd;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+}
+
+/* Hamburger Menu (Mobile Navigation) */
+.hamburger-menu {
+  display: none; /* Hidden by default for desktop */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer; /* Indicate it's clickable */
+  z-index: 1001; /* Ensure hamburger is on top of menu when expanded */
+  padding: 5px; /* Add some padding for easier clicking */
+}
+.hamburger-menu span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: all 0.3s ease-in-out;
+}
+/* Add slight margin between bars */
+.hamburger-menu span:not(:last-child) {
+    margin-bottom: 4px; 
+}
 
 
+/* Mobile Navigation Specifics */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide nav links by default on small screens */
+    flex-direction: column;
+    position: absolute;
+    top: 100%; /* Position below the nav bar */
+    left: 0;
+    width: 100%;
+    background: #111;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 1rem 0;
+    text-align: center;
+    z-index: 999; /* Ensure menu is below hamburger but above content */
+  }
+  .nav-links.active {
+    display: flex; /* Show nav links when active */
+  }
+  .nav-links li {
+    margin: 0.5rem 0;
+  }
+  .nav-links li a {
+    padding: 0.8rem 0;
+    display: block;
+  }
+  .hamburger-menu {
+    display: flex; /* Show hamburger menu */
+  }
+  #userEmail {
+      /* You can choose to hide or reposition user email on very small screens */
+      display: none; 
+  }
+}
+
+/* General Layout and Animation */
+.container { 
+  padding: 2rem; 
+  max-width: 960px;
+  margin: 0 auto;
+}
+.page { 
+  display: none; 
+  animation: fadeIn 0.5s ease-in-out;
+}
+.page.active { 
+  display: block; 
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.card { 
+  background: #fff; 
+  padding: 1.5rem; 
+  margin: 1rem 0; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+}
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem; 
+  margin-top: 1.5rem;
+}
+.grid .card { 
+  margin: 0;
+  text-align: center; /* Center content in cards, especially new images/buttons */
+}
+.card h4 {
+    margin-top: 0;
+    color: #e53935; /* Red accent color */
+}
+.card p {
+    font-size: 0.95rem;
+    color: #555;
+}
+.card a {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #4CAF50; /* Green buy button */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.card a:hover {
+    background-color: #45a049;
+}
+
+/* NEW: Product image styling within cards */
+.card img {
+    max-width: 100px; /* Adjust as needed */
+    height: auto;
+    display: block; /* Ensures it takes up full width for centering */
+    margin: 0 auto 1rem auto; /* Center image and add margin below */
+    border-radius: 4px; /* Slight rounded corners for images */
+}
+
+
+/* Hero section styles */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://image.pollinations.ai/prompt/powerful%20truck%20air%20suspension%20highway') center/cover no-repeat; /* Placeholder image */
+  color: white;
+  padding: 120px 20px;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.8rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+.hero p {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+.hero button {
+  background: #e53935; /* Red accent color */
+  color: #fff;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50px; 
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.hero button:hover {
+  background: #c62828;
+  transform: translateY(-2px);
+}
+
+/* Mobile specific Hero adjustments */
+@media (max-width: 600px) {
+  .hero {
+    padding: 80px 15px; /* Reduce padding */
+  }
+  .hero h1 {
+    font-size: 2.5rem; /* Smaller font size */
+  }
+  .hero p {
+    font-size: 1.2rem; /* Smaller font size */
+  }
+}
+
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 1.5rem;
+}
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form textarea {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    /* Add focus style */
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form input[type="number"]:focus,
+form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+form button {
+    background: #007bff; /* Blue button for general forms */
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none; /* Remove default focus outline */
+}
+form button:hover {
+    background: #0056b3;
+    transform: translateY(-1px); /* Slight lift on hover */
+}
+form button:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus style for buttons */
+}
+/* Loading state for buttons */
+form button.is-loading {
+    background-color: #a0a0a0; /* Greyed out */
+    cursor: not-allowed;
+    transform: translateY(0); /* No lift when loading */
+    box-shadow: none;
+}
+
+#auth form + form { /* Separate login/register forms */
+    margin-top: 2rem;
+}
+#auth button {
+    background: #6c757d; /* Grey color for Google/Logout buttons */
+    margin-top: 1rem;
+}
+#auth button:hover {
+    background: #5a6268;
+}
+
+#garageDisplay {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #e53935; /* Red accent color */
+}
+
+/* Product Search/Display Section */
+#products .product-options {
+    margin-top: 1.5rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#products .product-options h3 {
+    text-align: center;
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+#products .product-options .vehicle-info {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #e53935;
+}
+
+/* New Search input and button styling */
+#products .general-search-section {
+    margin-top: 1.5rem;
+    text-align: center; /* Center the input and button */
+}
+#products .general-search-section input[type="text"] {
+    width: calc(100% - 120px); /* Adjust width for button */
+    max-width: 300px; /* Limit max width */
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px; /* Rounded left, straight right */
+    font-size: 1rem;
+    vertical-align: middle; /* Align with button */
+    box-sizing: border-box; /* Include padding/border in width */
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#products .general-search-section input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+#products .general-search-section button {
+    padding: 0.8rem 1.2rem;
+    background-color: #007bff; /* Blue search button */
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0; /* Straight left, rounded right */
+    font-size: 1rem;
+    cursor: pointer;
+    vertical-align: middle; /* Align with input */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+#products .general-search-section button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+#products .general-search-section button:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+#products .category-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+#products .category-buttons button {
+    background: #4CAF50; /* Green category buttons */
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#products .category-buttons button:hover {
+    background: #45a049;
+}
+
+#products .no-vehicle-message {
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+    color: #666;
+}
+#products .no-vehicle-message a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+#products .no-vehicle-message a:hover {
+    text-decoration: underline;
+}
+
+
+/* Accessibility - Visually hidden class */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Notification Styles */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000; /* Above everything else */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+    pointer-events: none; /* Allows clicks to pass through to elements behind */
+}
+
+.notification-item {
+    background-color: #333;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards; /* Slide in, stay, fade out */
+    pointer-events: auto; /* Re-enable clicks on the notification itself */
+    font-size: 0.95rem;
+}
+
+.notification-success {
+    background-color: #4CAF50; /* Green */
+}
+
+.notification-error {
+    background-color: #f44336; /* Red */
+}
+
+.notification-info {
+    background-color: #2196F3; /* Blue */
+}
+
+@keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateX(100%); }
+}
+
+/* Responsive adjustments for notifications */
+@media (max-width: 600px) {
+    .notification-container {
+        top: 10px;
+        right: 10px;
+        left: 10px; /* Stretch across more of the screen */
+        max-width: none;
+    }
+    .notification-item {
+        animation: slideInMobile 0.5s forwards, fadeOut 0.5s 2.5s forwards;
+    }
+    @keyframes slideInMobile {
+        to { opacity: 1; transform: translateY(0); } /* Slide from top down */
+    }
+}
+
+/* Wishlist specific styles */
+#wishlist .no-items-message {
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+    color: #666;
+}
+#wishlist .card .remove-from-wishlist-btn {
+    background-color: #f44336; /* Red for remove */
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#wishlist .card .remove-from-wishlist-btn:hover {
+    background-color: #da190b;
+}
+.add-to-wishlist-btn {
+    background-color: #ff9800; /* Orange for add to wishlist */
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block; /* Make it a block element to stack */
+    width: fit-content; /* Fit content for proper stacking */
+    margin-left: auto;
+    margin-right: auto;
+}
+.add-to-wishlist-btn:hover {
+    background-color: #e68a00;
+}
