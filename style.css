@@ -231,6 +231,17 @@ form {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     margin-top: 1.5rem;
 }
+form h3 { /* Style for form titles */
+    text-align: center;
+    color: #e53935; /* Using red accent for form headers */
+    margin-bottom: 1.5rem;
+}
+form label {
+    font-weight: 600;
+    color: #333;
+    display: block; /* Ensures label takes its own line */
+    margin-bottom: 0.25rem;
+}
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
@@ -243,6 +254,7 @@ form textarea {
     /* Add focus style */
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Include padding/border in width */
 }
 form input[type="text"]:focus,
 form input[type="email"]:focus,
@@ -285,20 +297,122 @@ form button.is-loading {
 #auth form + form { /* Separate login/register forms */
     margin-top: 2rem;
 }
-#auth button {
-    background: #6c757d; /* Grey color for Google/Logout buttons */
+#auth #googleLoginBtn { /* Google specific color */
+    background: #dd4b39;
     margin-top: 1rem;
 }
-#auth button:hover {
-    background: #5a6268;
+#auth #googleLoginBtn:hover {
+    background: #c23321;
+}
+#auth #logoutBtn { /* Logout specific color */
+    background: #e74c3c;
+    margin-top: 1rem;
+}
+#auth #logoutBtn:hover {
+    background: #c0392b;
 }
 
-#garageDisplay {
+/* NEW: Password visibility toggle */
+.password-input-container {
+    position: relative;
+    width: 100%; /* Ensure it takes full width of parent */
+}
+
+.password-input-container input {
+    padding-right: 40px; /* Make space for the button */
+}
+
+.password-input-container button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #555;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+    width: auto; /* Override form button width */
+}
+
+.password-input-container button:hover {
+    background-color: #e0e0e0;
+}
+
+.forgot-password-link {
+    display: block;
+    text-align: right;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+
+/* Garage Section Display */
+#savedVehicles {
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+
+.vehicle-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.vehicle-info {
+    flex-grow: 1;
+}
+
+.vehicle-info h4 {
+    margin: 0 0 0.5rem 0;
+    text-align: left;
+    color: #e53935; /* Using red accent */
+    font-size: 1.1rem;
+}
+
+.vehicle-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.delete-vehicle-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.delete-vehicle-btn:hover {
+    background-color: #c0392b;
+}
+#garageDisplay { /* This was for a single vehicle display, will be replaced by #savedVehicles */
     margin-top: 1.5rem;
     font-size: 1.1rem;
     font-weight: bold;
     color: #e53935; /* Red accent color */
 }
+
 
 /* Product Search/Display Section */
 #products .product-options {
@@ -311,7 +425,7 @@ form button.is-loading {
 
 #products .product-options h3 {
     text-align: center;
-    color: #007bff;
+    color: #e53935; /* Using red accent for product section headers */
     margin-top: 0;
     margin-bottom: 1.5rem;
 }
@@ -321,19 +435,23 @@ form button.is-loading {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
-    color: #e53935;
+    color: #007bff; /* Using blue for vehicle info */
 }
 
 /* New Search input and button styling */
 #products .general-search-section {
     margin-top: 1.5rem;
     text-align: center; /* Center the input and button */
+    display: flex;
+    justify-content: center;
+    gap: 0; /* No gap between input and button for joined look */
 }
 #products .general-search-section input[type="text"] {
-    width: calc(100% - 120px); /* Adjust width for button */
+    flex-grow: 1; /* Allows input to take available space */
     max-width: 300px; /* Limit max width */
     padding: 0.8rem;
     border: 1px solid #ddd;
+    border-right: none; /* No right border for joined look */
     border-radius: 5px 0 0 5px; /* Rounded left, straight right */
     font-size: 1rem;
     vertical-align: middle; /* Align with button */
@@ -416,6 +534,7 @@ form button.is-loading {
 }
 
 /* Notification Styles */
+/* Your original .notification-container had no styles, adding minimal ones here */
 .notification-container {
     position: fixed;
     top: 20px;
@@ -425,21 +544,46 @@ form button.is-loading {
     flex-direction: column;
     gap: 10px;
     max-width: 300px;
-    pointer-events: none; /* Allows clicks to pass through to elements behind */
+    /* pointer-events: none; Removed this to allow close button interaction */
 }
 
-.notification-item {
+/* Your original .notification-item was not defined, adding it and the types */
+.notification-item { /* Changed to notification for consistency with original script */
     background-color: #333;
     color: white;
     padding: 15px 20px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    opacity: 0;
+    /* Initial state for animation */
+    opacity: 0; 
     transform: translateX(100%);
-    animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards; /* Slide in, stay, fade out */
-    pointer-events: auto; /* Re-enable clicks on the notification itself */
+    animation: slideIn 0.5s forwards; /* Only slide in on creation */
+    /* pointer-events: auto; Included this in script logic, but good to have here too */
     font-size: 0.95rem;
+    display: flex; /* For message and close button */
+    justify-content: space-between;
+    align-items: center;
 }
+
+.notification-item .notification-message { /* Added class for message */
+    margin-right: 10px; /* Space for close button */
+}
+
+.notification-item .notification-close { /* Added class for close button */
+    background: none;
+    border: none;
+    color: inherit; /* Inherit white color from notification-item */
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1; /* Prevent extra spacing */
+    padding: 0 5px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+.notification-item .notification-close:hover {
+    opacity: 1;
+}
+
 
 .notification-success {
     background-color: #4CAF50; /* Green */
@@ -457,9 +601,9 @@ form button.is-loading {
     to { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes fadeOut {
-    to { opacity: 0; transform: translateX(100%); }
-}
+/* @keyframes fadeOut { Removed, will be handled by JS for timing control */
+/* to { opacity: 0; transform: translateX(100%); } */
+/* } */
 
 /* Responsive adjustments for notifications */
 @media (max-width: 600px) {
@@ -469,12 +613,7 @@ form button.is-loading {
         left: 10px; /* Stretch across more of the screen */
         max-width: none;
     }
-    .notification-item {
-        animation: slideInMobile 0.5s forwards, fadeOut 0.5s 2.5s forwards;
-    }
-    @keyframes slideInMobile {
-        to { opacity: 1; transform: translateY(0); } /* Slide from top down */
-    }
+    /* No need for slideInMobile if we want it to slide from right on mobile too */
 }
 
 /* Wishlist specific styles */
@@ -513,4 +652,67 @@ form button.is-loading {
 }
 .add-to-wishlist-btn:hover {
     background-color: #e68a00;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #111; /* Match nav background */
+    color: #fff;
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 4rem; /* Add some space above the footer */
+}
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 20px; /* Add padding for smaller screens */
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap; /* Allow links to wrap */
+    justify-content: center;
+}
+
+.footer-links li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+    color: #e53935; /* Match red accent */
+}
+
+.social-media {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-media img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease;
+}
+
+.social-media img:hover {
+    transform: scale(1.1);
+}
+
+/* Error Message Styles */
+.error-message {
+    color: #e53935; /* Red accent for errors */
+    font-size: 0.85rem;
+    margin-top: -0.5rem; /* Pull up closer to the input */
+    margin-bottom: 0.5rem;
+    display: block; /* Ensure it takes its own line */
 }

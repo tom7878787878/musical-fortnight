@@ -12,9 +12,10 @@
   <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-  <div id="notificationContainer" class="notification-container"></div>
+  <div id="notificationContainer" class="notification-container" aria-live="polite">
+    </div>
   <header>
-    <nav class="container">
+    <nav class="container" role="navigation" aria-label="Main Navigation">
       <div class="logo">🚗 APEX AUTO PARTS</div>
       <ul class="nav-links" id="navLinks">
         <li><a href="#" onclick="showPage('auth')">Login / Register</a></li>
@@ -24,7 +25,7 @@
         <li><a href="#" onclick="showPage('wishlist')">My Wishlist</a></li> <li><a href="#" onclick="showPage('contact')">Contact</a></li>
       </ul>
       <span id="userEmail" aria-live="polite"></span>
-      <div class="hamburger-menu" id="hamburgerMenu">
+      <div class="hamburger-menu" id="hamburgerMenu" role="button" aria-controls="navLinks" aria-expanded="false" tabindex="0">
         <span></span>
         <span></span>
         <span></span>
@@ -32,7 +33,7 @@
     </nav>
   </header>
 
-  <main>
+  <main role="main">
     <section id="home" class="page active">
       <div class="hero">
         <h1>Apex Auto Parts</h1>
@@ -49,7 +50,8 @@
             </div>
 
         <h3>General Featured Products</h3>
-        <div class="grid" id="featuredProductsGrid"> <div class="card" 
+        <div class="grid" id="featuredProductsGrid"> 
+          <div class="card" 
                data-product-id="oil-filter-acdelco"
                data-product-name="Oil Filter" 
                data-product-price="12.99" 
@@ -58,7 +60,7 @@
             <img src="https://via.placeholder.com/100x100?text=Oil+Filter" alt="ACDelco Oil Filter">
             <h4>Oil Filter</h4>
             <p>ACDelco – $12.99</p>
-            <a href="https://amzn.to/4f7A3tG" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
+            <a href="https://amzn.to/4f7A3tG" target="_blank" rel="noopener noreferrer" aria-label="Buy ACDelco Oil Filter on Amazon">Buy on Amazon</a>
             <button class="add-to-wishlist-btn">Add to Wishlist</button>
           </div>
           <div class="card" 
@@ -70,7 +72,7 @@
             <img src="https://via.placeholder.com/100x100?text=Brake+Pads" alt="Wagner Brake Pads">
             <h4>Brake Pads</h4>
             <p>Wagner – $89.99</p>
-            <a href="https://amzn.to/3GSGPGS" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
+            <a href="https://amzn.to/3GSGPGS" target="_blank" rel="noopener noreferrer" aria-label="Buy Wagner Brake Pads on Amazon">Buy on Amazon</a>
             <button class="add-to-wishlist-btn">Add to Wishlist</button>
           </div>
           <div class="card" 
@@ -82,7 +84,7 @@
             <img src="https://via.placeholder.com/100x100?text=Spark+Plugs" alt="NGK Spark Plugs">
             <h4>Spark Plugs</h4>
             <p>NGK – $7.50 each</p>
-            <a href="https://amzn.to/4lXf1A0" target="_blank" rel="noopener noreferrer">Buy on Amazon</a>
+            <a href="https://amzn.to/4lXf1A0" target="_blank" rel="noopener noreferrer" aria-label="Buy NGK Spark Plugs on Amazon">Buy on Amazon</a>
             <button class="add-to-wishlist-btn">Add to Wishlist</button>
           </div>
           <div class="card" 
@@ -93,7 +95,7 @@
             <img src="https://via.placeholder.com/100x100?text=Wiper+Blades" alt="Bosch Icon Wiper Blades">
             <h4>Wiper Blades</h4>
             <p>Bosch Icon – $25.00</p>
-            <a href="https://amzn.to/4lBWnOf" target="_blank" rel="noopener noreferrer">Buy on Amazon</a> <button class="add-to-wishlist-btn">Add to Wishlist</button>
+            <a href="https://amzn.to/4lBWnOf" target="_blank" rel="noopener noreferrer" aria-label="Buy Bosch Icon Wiper Blades on Amazon">Buy on Amazon</a> <button class="add-to-wishlist-btn">Add to Wishlist</button>
           </div>
         </div>
       </div>
@@ -103,22 +105,33 @@
       <div class="container">
         <h2>My Garage</h2>
         <form id="garageForm">
-          <label for="make" class="sr-only">Make</label>
-          <input type="text" id="make" placeholder="Make" required />
-          <label for="model" class="sr-only">Model</label>
-          <input type="text" id="model" placeholder="Model" required />
-          <label for="year" class="sr-only">Year</label>
-          <input type="number" id="year" placeholder="Year" min="1900" max="2100" required /> 
+          <h3>Add a New Vehicle (Max 3)</h3>
+          <label for="make">Make</label>
+          <input type="text" id="make" placeholder="Make" required aria-describedby="makeError"/>
+          <span id="makeError" class="error-message" aria-live="polite"></span>
+
+          <label for="model">Model</label>
+          <input type="text" id="model" placeholder="Model" required aria-describedby="modelError"/>
+          <span id="modelError" class="error-message" aria-live="polite"></span>
+
+          <label for="year">Year</label>
+          <input type="number" id="year" placeholder="Year" min="1900" max="2100" required aria-describedby="yearError"/> 
+          <span id="yearError" class="error-message" aria-live="polite"></span>
+
           <button type="submit">Save Vehicle</button>
         </form>
-        <p id="garageDisplay" aria-live="polite"></p>
+        
+        <h3>My Saved Vehicles</h3>
+        <div id="savedVehicles" class="grid">
+          <p id="noVehiclesMessage" class="no-items-message">No vehicles saved yet. Add one above!</p>
+          </div>
       </div>
     </section>
 
     <section id="wishlist" class="page">
         <div class="container">
             <h2>My Wishlist</h2>
-            <div id="wishlistItems" class="grid">
+            <div id="wishlistItems" class="grid" aria-live="polite">
                 <p class="no-items-message">Please log in to see your wishlist, or add some products from the Products page!</p>
             </div>
             <button id="clearWishlistBtn" style="margin-top: 2rem;">Clear Wishlist</button>
@@ -130,12 +143,18 @@
         <h2>Contact Us</h2>
         <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_FORM_ID" method="POST">
           <h3>Send us a message!</h3>
-          <label for="contactName" class="sr-only">Name</label>
-          <input type="text" id="contactName" name="name" placeholder="Your Name" required />
-          <label for="contactEmail" class="sr-only">Email</label>
-          <input type="email" id="contactEmail" name="email" placeholder="Your Email" required />
-          <label for="contactMessage" class="sr-only">Message</label>
-          <textarea id="contactMessage" name="message" placeholder="Your Message" required></textarea>
+          <label for="contactName">Name</label>
+          <input type="text" id="contactName" name="name" placeholder="Your Name" required aria-describedby="contactNameError"/>
+          <span id="contactNameError" class="error-message" aria-live="polite"></span>
+
+          <label for="contactEmail">Email</label>
+          <input type="email" id="contactEmail" name="email" placeholder="Your Email" required aria-describedby="contactEmailError"/>
+          <span id="contactEmailError" class="error-message" aria-live="polite"></span>
+
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" name="message" placeholder="Your Message" required aria-describedby="contactMessageError"></textarea>
+          <span id="contactMessageError" class="error-message" aria-live="polite"></span>
+
           <button type="submit">Send Message</button>
         </form>
       </div>
@@ -146,18 +165,31 @@
         <h2>Login / Register</h2>
         <form id="loginForm">
           <h3>Login</h3>
-          <label for="loginEmail" class="sr-only">Email</label>
-          <input type="email" id="loginEmail" placeholder="Email" required />
-          <label for="loginPass" class="sr-only">Password</label>
-          <input type="password" id="loginPass" placeholder="Password" required />
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="Email" required aria-describedby="loginEmailError"/>
+          <span id="loginEmailError" class="error-message" aria-live="polite"></span>
+
+          <label for="loginPass">Password</label>
+          <div class="password-input-container">
+            <input type="password" id="loginPass" placeholder="Password" required aria-describedby="loginPassError"/>
+            <button type="button" id="toggleLoginPass" aria-label="Show password">👁️</button>
+          </div>
+          <span id="loginPassError" class="error-message" aria-live="polite"></span>
+          <a href="#" class="forgot-password-link">Forgot Password?</a>
           <button type="submit">Login</button>
         </form>
         <form id="registerForm">
           <h3>Register</h3>
-          <label for="regEmail" class="sr-only">Email</label>
-          <input type="email" id="regEmail" placeholder="Email" required />
-          <label for="regPass" class="sr-only">Password</label>
-          <input type="password" id="regPass" placeholder="Password" required />
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" placeholder="Email" required aria-describedby="regEmailError"/>
+          <span id="regEmailError" class="error-message" aria-live="polite"></span>
+
+          <label for="regPass">Password</label>
+          <div class="password-input-container">
+            <input type="password" id="regPass" placeholder="Password" required aria-describedby="regPassError"/>
+            <button type="button" id="toggleRegPass" aria-label="Show password">👁️</button>
+          </div>
+          <span id="regPassError" class="error-message" aria-live="polite"></span>
           <button type="submit">Register</button>
         </form>
         <button id="googleLoginBtn" onclick="googleLogin()">Login with Google</button>
@@ -165,6 +197,22 @@
       </div>
     </section>
   </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="currentYear"></span> Apex Auto Parts. All rights reserved.</p>
+      <ul class="footer-links">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+      <div class="social-media">
+        <a href="#" aria-label="Facebook"><img src="path/to/facebook-icon.png" alt="Facebook"></a>
+        <a href="#" aria-label="Instagram"><img src="path/to/instagram-icon.png" alt="Instagram"></a>
+        <a href="#" aria-label="Twitter"><img src="path/to/twitter-icon.png" alt="Twitter"></a>
+      </div>
+    </div>
+  </footer>
 
   <script type="module" src="script.js"></script>
 </body>
